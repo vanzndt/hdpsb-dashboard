@@ -12,5 +12,11 @@
       "src": "/(.*)",
       "dest": "/api/index.php"
     }
-  ]
+  ],
+  "build": {
+    "env": {
+      "COMPOSER_NO_INTERACTION": "1"
+    }
+  },
+  "installCommand": "composer install --no-dev --optimize-autoloader"
 }
