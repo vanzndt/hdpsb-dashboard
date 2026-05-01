@@ -1,4 +1,6 @@
 <?php
+$_SERVER['HTTPS'] = 'on';
+$_SERVER['SERVER_PORT'] = 443;
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
