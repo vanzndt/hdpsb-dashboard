@@ -1,0 +1,8 @@
+name = "hdpsb-worker"
+main = "src/index.js"
+compatibility_date = "2026-05-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "hdpsb-db"
+database_id = "fecbf3be-3ed8-4e22-a682-3841b6001ee8"
