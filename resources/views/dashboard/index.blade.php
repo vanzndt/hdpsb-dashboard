@@ -310,6 +310,20 @@ async function checkNewRows(){
     const res = await api("/?action=new&lastIndex="+lastIndex);
     setConnStatus(true);
     pollKlaimStatus();
+    
+    // Update status tiket yang sudah ada
+    const resAll = await api("/?action=data");
+    resAll.rows.forEach(function(newRow){
+      const oldRow = allData.find(r=>String(r._rowIndex)===String(newRow._rowIndex));
+      if(oldRow && oldRow.statusKey !== newRow.statusKey){
+        oldRow.statusKey = newRow.statusKey;
+        oldRow.pic = newRow.pic;
+        oldRow.balasan = newRow.balasan;
+        updateRow(newRow._rowIndex);
+        renderStats();
+      }
+    });
+
     if(res.hasNew){
       const wasNearBottom = isNearBottom();
       newRowIndices = res.rows.map(r=>r._rowIndex);
