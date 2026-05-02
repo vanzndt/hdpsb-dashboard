@@ -1,3 +1,4 @@
+@'
 @extends('layouts.app')
 
 @section('title', 'Dashboard — HD PSB')
@@ -263,19 +264,17 @@
 
 @push('scripts')
 <script>
-// ===== KONFIGURASI (dari Laravel → JS) =====
-const API_BASE    = @json($apiBase);
-const CURRENT_USER = @json($user);        // { name, role }
-const WARNA_PIC   = @json($warnaPic);     // { ANJAS: {bg,font}, ... }
-const PIC_LIST    = @json($picList);      // ['ANJAS','JHON',...]
-const PASSWORDS_ADMIN = @json(config('hdpsb.admin_key', 'vanzndt28')); // untuk clear DB
+const API_BASE     = @json($apiBase);
+const CURRENT_USER = @json($user);
+const WARNA_PIC    = @json($warnaPic);
+const PIC_LIST     = @json($picList);
+const PASSWORDS_ADMIN = @json(config('hdpsb.admin_key', 'vanzndt28'));
 
-const POLL_INTERVAL = 3000;
+const POLL_INTERVAL = 2000;
 
 let allData=[], lastIndex=1, activeFilter="SEMUA", pollTimer=null, isPolling=false, newRowIndices=[];
 let klaimCache={};
 
-// ===== POLLING & DATA =====
 async function api(path, options={}){
   const res = await fetch(API_BASE+path, options);
   let data;
@@ -310,8 +309,8 @@ async function checkNewRows(){
     const res = await api("/?action=new&lastIndex="+lastIndex);
     setConnStatus(true);
     pollKlaimStatus();
-    
-    // Update status tiket yang sudah ada
+
+    // Update status tiket yang sudah ada secara realtime
     const resAll = await api("/?action=data");
     resAll.rows.forEach(function(newRow){
       const oldRow = allData.find(r=>String(r._rowIndex)===String(newRow._rowIndex));
@@ -386,7 +385,6 @@ async function pollKlaimStatus(){
   }
 }
 
-// ===== FILTER & RENDER =====
 function getFiltered(){
   const q=(document.getElementById("searchInput")||{}).value||"";
   const ql=q.toLowerCase();
@@ -431,13 +429,14 @@ function renderTable(){
 function buatInputBalas(row,isAdmin,klaimSaya){
   const isDone=row.statusKey==="done";
   let html='<div class="chat-input-wrap">';
-  
   if(isDone){
     html+='<div style="display:flex;flex-direction:column;gap:6px">';
-    html+='<div style="display:flex;align-items:center;gap:8px">';
+    html+='<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">';
     html+='<span style="font-size:11px;font-weight:700;background:#DCFCE7;color:#166534;padding:3px 10px;border-radius:20px">✅ TERKIRIM</span>';
     if(row.pic) html+='<span style="font-size:11px;font-weight:700;color:var(--muted)">oleh '+escHtml(row.pic)+'</span>';
+    html+='<button onclick="toggleEdit('+row._rowIndex+',this)" style="font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;border:1px solid #E5E7EB;background:#F9FAFB;color:#374151;cursor:pointer">Edit</button>';
     html+='</div>';
+    html+='<div id="edit-wrap-'+row._rowIndex+'" style="display:none">';
     html+='<div class="chat-input-row"><input class="chat-reply-inp" data-rowindex="'+row._rowIndex+'" placeholder="Kirim ulang balasan..." value="">';
     if(isAdmin){
       html+='<select class="chat-pic-sel" id="ps-'+row._rowIndex+'"><option value="">PIC</option>'+PIC_LIST.map(function(p){ return'<option value="'+p+'"'+(row.pic===p?' selected':'')+'>'+p+'</option>'; }).join('')+'</select>';
@@ -446,7 +445,7 @@ function buatInputBalas(row,isAdmin,klaimSaya){
       html+='<span class="pic-fixed-label" style="background:'+myWi.bg+';color:'+myWi.font+'">'+escHtml(CURRENT_USER.name)+'</span>';
     }
     html+='<button class="chat-send-btn" data-rowindex="'+row._rowIndex+'"><svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></button></div>';
-    html+='</div>';
+    html+='</div></div>';
   } else {
     if(klaimSaya){
       html+='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:2px"><span style="font-size:10px;color:var(--green);font-weight:700">✅ Kamu sedang mengerjakan ini</span><button class="klaim-btn" style="font-size:10px;padding:2px 8px;background:#EF4444" data-lepas="'+row._rowIndex+'">Lepas</button></div>';
@@ -460,9 +459,17 @@ function buatInputBalas(row,isAdmin,klaimSaya){
     }
     html+='<button class="chat-send-btn" data-rowindex="'+row._rowIndex+'"><svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></button></div>';
   }
-  
   html+='<div class="typing-indicator" id="ti-'+row._rowIndex+'"></div></div>';
   return html;
+}
+
+function toggleEdit(rowIndex, btn){
+  const wrap = document.getElementById("edit-wrap-"+rowIndex);
+  if(!wrap) return;
+  const isHidden = wrap.style.display === "none";
+  wrap.style.display = isHidden ? "block" : "none";
+  btn.textContent = isHidden ? "Tutup" : "Edit";
+  if(isHidden){ const inp = wrap.querySelector(".chat-reply-inp"); if(inp) inp.focus(); }
 }
 
 function setupTableDelegation(){
@@ -492,7 +499,6 @@ function setupTableDelegation(){
   });
 }
 
-// ===== KLAIM =====
 async function ambilTiket(rowIndex){
   const klaimBtn=document.querySelector('.klaim-btn[data-rowindex="'+rowIndex+'"]');
   if(klaimBtn){ klaimBtn.disabled=true; klaimBtn.textContent="⏳ Mengambil..."; klaimBtn.style.opacity="0.6"; }
@@ -596,7 +602,6 @@ function renderStats(){
 
 function setStatVal(id,val){ document.getElementById(id).textContent=val; }
 
-// ===== MODAL =====
 function setupModal(){
   document.getElementById("msgModal").addEventListener("click",function(e){ if(e.target===this) closeModal(); });
   document.getElementById("modalCloseBtn").addEventListener("click",closeModal);
@@ -626,7 +631,6 @@ function copyModalMsg(){
   }).catch(function(){ showToast("Gagal menyalin","error"); });
 }
 
-// ===== HAPUS DB =====
 function openClearConfirm(){
   document.getElementById("confirmInput").value="";
   document.getElementById("confirmDeleteBtn").classList.remove("ready");
@@ -656,7 +660,6 @@ async function doClearDatabase(){
   finally{ btn.textContent="Hapus Semua"; btn.style.opacity=""; btn.style.pointerEvents=""; }
 }
 
-// ===== HELPERS =====
 function setConnStatus(ok){
   const el=document.getElementById("connStatus");
   el.textContent=ok?"Terhubung":"Terputus";
@@ -683,9 +686,9 @@ function showToast(msg,type){
   toastTimer=setTimeout(function(){ t.classList.remove("show"); },3200);
 }
 
-// ===== INIT =====
 window.addEventListener("DOMContentLoaded",function(){
   setupModal(); setupTableDelegation(); loadData();
 });
 </script>
 @endpush
+'@ | Set-Content resources\views\dashboard\index.blade.php -Encoding UTF8
