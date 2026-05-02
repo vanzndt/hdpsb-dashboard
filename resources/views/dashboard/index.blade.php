@@ -417,17 +417,36 @@ function renderTable(){
 function buatInputBalas(row,isAdmin,klaimSaya){
   const isDone=row.statusKey==="done";
   let html='<div class="chat-input-wrap">';
-  if(klaimSaya){
-    html+='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:2px"><span style="font-size:10px;color:var(--green);font-weight:700">✅ Kamu sedang mengerjakan ini</span><button class="klaim-btn" style="font-size:10px;padding:2px 8px;background:#EF4444" data-lepas="'+row._rowIndex+'">Lepas</button></div>';
-  }
-  html+='<div class="chat-input-row"><input class="chat-reply-inp" data-rowindex="'+row._rowIndex+'" placeholder="'+(isDone?"Balas lagi...":"Tulis balasan...")+'" value="">';
-  if(isAdmin){
-    html+='<select class="chat-pic-sel" id="ps-'+row._rowIndex+'"><option value="">PIC</option>'+PIC_LIST.map(function(p){ return'<option value="'+p+'"'+(row.pic===p?' selected':'')+'>'+p+'</option>'; }).join('')+'</select>';
+  
+  if(isDone){
+    html+='<div style="display:flex;flex-direction:column;gap:6px">';
+    html+='<div style="display:flex;align-items:center;gap:8px">';
+    html+='<span style="font-size:11px;font-weight:700;background:#DCFCE7;color:#166534;padding:3px 10px;border-radius:20px">✅ TERKIRIM</span>';
+    if(row.pic) html+='<span style="font-size:11px;font-weight:700;color:var(--muted)">oleh '+escHtml(row.pic)+'</span>';
+    html+='</div>';
+    html+='<div class="chat-input-row"><input class="chat-reply-inp" data-rowindex="'+row._rowIndex+'" placeholder="Kirim ulang balasan..." value="">';
+    if(isAdmin){
+      html+='<select class="chat-pic-sel" id="ps-'+row._rowIndex+'"><option value="">PIC</option>'+PIC_LIST.map(function(p){ return'<option value="'+p+'"'+(row.pic===p?' selected':'')+'>'+p+'</option>'; }).join('')+'</select>';
+    } else {
+      const myWi=WARNA_PIC[CURRENT_USER.name]||{bg:"#E3F2FD",font:"#0D47A1"};
+      html+='<span class="pic-fixed-label" style="background:'+myWi.bg+';color:'+myWi.font+'">'+escHtml(CURRENT_USER.name)+'</span>';
+    }
+    html+='<button class="chat-send-btn" data-rowindex="'+row._rowIndex+'"><svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></button></div>';
+    html+='</div>';
   } else {
-    const myWi=WARNA_PIC[CURRENT_USER.name]||{bg:"#E3F2FD",font:"#0D47A1"};
-    html+='<span class="pic-fixed-label" style="background:'+myWi.bg+';color:'+myWi.font+'">'+escHtml(CURRENT_USER.name)+'</span>';
+    if(klaimSaya){
+      html+='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:2px"><span style="font-size:10px;color:var(--green);font-weight:700">✅ Kamu sedang mengerjakan ini</span><button class="klaim-btn" style="font-size:10px;padding:2px 8px;background:#EF4444" data-lepas="'+row._rowIndex+'">Lepas</button></div>';
+    }
+    html+='<div class="chat-input-row"><input class="chat-reply-inp" data-rowindex="'+row._rowIndex+'" placeholder="Tulis balasan..." value="">';
+    if(isAdmin){
+      html+='<select class="chat-pic-sel" id="ps-'+row._rowIndex+'"><option value="">PIC</option>'+PIC_LIST.map(function(p){ return'<option value="'+p+'"'+(row.pic===p?' selected':'')+'>'+p+'</option>'; }).join('')+'</select>';
+    } else {
+      const myWi=WARNA_PIC[CURRENT_USER.name]||{bg:"#E3F2FD",font:"#0D47A1"};
+      html+='<span class="pic-fixed-label" style="background:'+myWi.bg+';color:'+myWi.font+'">'+escHtml(CURRENT_USER.name)+'</span>';
+    }
+    html+='<button class="chat-send-btn" data-rowindex="'+row._rowIndex+'"><svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></button></div>';
   }
-  html+='<button class="chat-send-btn" data-rowindex="'+row._rowIndex+'"><svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></button></div>';
+  
   html+='<div class="typing-indicator" id="ti-'+row._rowIndex+'"></div></div>';
   return html;
 }
