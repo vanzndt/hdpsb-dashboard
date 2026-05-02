@@ -337,33 +337,35 @@ async function checkNewRows(){
 }
 
 async function pollKlaimStatus(){
-  const lockedRows = Object.keys(klaimCache).filter(k=>klaimCache[k]&&klaimCache[k]!==CURRENT_USER.name);
-  if(lockedRows.length===0) return;
-  for(const ri of lockedRows){
+  const allRows = allData.filter(r => r.statusKey !== "done");
+  if(allRows.length === 0) return;
+  for(const row of allRows){
+    const ri = String(row._rowIndex);
     try{
-      const res = await fetch(API_BASE+"/?action=klaim&rowIndex="+ri+"&pic=__check__");
+      const res = await fetch(API_BASE+"/?action=klaimStatus&rowIndex="+ri);
       const data = await res.json();
-      const now=data.klaimedBy||null, prev=klaimCache[ri]||null;
-      if(prev!==now){
-        if(now){ klaimCache[ri]=now; } else { delete klaimCache[ri]; }
-        const row = allData.find(r=>String(r._rowIndex)===String(ri));
-        const tr  = document.querySelector('tr[data-rowindex="'+ri+'"]');
-        if(row&&tr&&row.statusKey!=="done"){
-          const isAdmin   = CURRENT_USER.role==="ADMIN";
-          const klaimOleh = klaimCache[ri]||null;
-          const klaimSaya = klaimOleh===CURRENT_USER.name;
-          const klaimOrang = klaimOleh&&!klaimSaya;
+      const now = data.pic || null;
+      const prev = klaimCache[ri] || null;
+      if(prev !== now){
+        if(now){ klaimCache[ri] = now; }
+        else { delete klaimCache[ri]; }
+        const tr = document.querySelector('tr[data-rowindex="'+ri+'"]');
+        if(tr && row.statusKey !== "done"){
+          const isAdmin = CURRENT_USER.role === "ADMIN";
+          const klaimSaya = now === CURRENT_USER.name;
+          const klaimOrang = now && !klaimSaya;
           let html;
           if(klaimOrang){
-            html='<div class="chat-input-wrap"><div class="kunci-info">🔒 Sedang dikerjakan <strong>'+escHtml(klaimOleh)+'</strong></div></div>';
+            html='<div class="chat-input-wrap"><div class="kunci-info">🔒 Sedang dikerjakan <strong>'+escHtml(now)+'</strong></div></div>';
             tr.classList.add("terkunci");
           } else if(klaimSaya){
-            html=buatInputBalas(row,isAdmin,true); tr.classList.remove("terkunci");
+            html=buatInputBalas(row,isAdmin,true);
+            tr.classList.remove("terkunci");
           } else {
             html='<div class="chat-input-wrap"><button class="klaim-btn" data-rowindex="'+ri+'">✋ KERJAKAN</button></div>';
             tr.classList.remove("terkunci");
           }
-          tr.cells[6].innerHTML=html;
+          tr.cells[6].innerHTML = html;
         }
       }
     } catch(e){}
