@@ -696,3 +696,5 @@ window.addEventListener("DOMContentLoaded",function(){
   setupModal(); setupTableDelegation(); loadData();
 });
 </script>
+@endpush
+'@ | Set-Content resources\views\dashboard\index.blade.php -Encoding UTF8
