@@ -511,7 +511,7 @@ async function ambilTiket(rowIndex){
       const row=allData.find(r=>String(r._rowIndex)===String(rowIndex));
       if(row){
         const tr=document.querySelector('tr[data-rowindex="'+rowIndex+'"]');
-        if(tr){ tr.cells[6].innerHTML=buatInputBalas(row,CURRENT_USER.role==="ADMIN",true); tr.classList.remove("terkunci"); const inp=tr.querySelector('.chat-reply-inp'); if(inp) inp.focus(); }
+        if(tr){ tr.cells[5].innerHTML=buatInputBalas(row,CURRENT_USER.role==="ADMIN",true); tr.classList.remove("terkunci"); const inp=tr.querySelector('.chat-reply-inp'); if(inp) inp.focus(); }
       }
       showToast("Kamu sedang mengerjakan","success");
     } else {
@@ -692,4 +692,4 @@ window.addEventListener("DOMContentLoaded",function(){
 });
 </script>
 @endpush
-'@ | Set-Content resources\views\dashboard\index.blade.php -Encoding UTF8
+'@ | Set-Content resources\views\dashboard\index.blade.php -Encoding 
