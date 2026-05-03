@@ -72,6 +72,12 @@
   .chat-send-btn.sending{opacity:0.5;pointer-events:none;cursor:not-allowed}
   .chat-send-btn svg{width:17px;height:17px;fill:#fff}
   .klaim-btn{font-size:11px;font-weight:700;padding:5px 14px;border-radius:20px;border:none;background:var(--tg-blue);color:#fff;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;white-space:nowrap;transition:opacity 0.2s}
+
+.edit-btn{font-size:11px;font-weight:700;padding:5px 14px;border-radius:20px;border:none;background:#FEE2E2;color:#DC2626;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;white-space:nowrap;transition:all 0.2s}
+.edit-btn:hover{background:#DC2626;color:#fff}
+.terkirim-badge{font-size:11px;font-weight:700;background:#DCFCE7;color:#166534;padding:3px 10px;border-radius:20px}
+.terkirim-wrap{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+
   .klaim-btn:hover{opacity:0.85}
   .kunci-info{font-size:11px;font-weight:600;color:#92400E;background:#FEF3C7;border:1px solid #FCD34D;border-radius:8px;padding:5px 10px;display:flex;align-items:center;gap:5px;white-space:nowrap}
   .typing-indicator{font-size:10px;color:var(--tg-blue);font-style:italic;min-height:14px;padding-left:4px}
@@ -440,7 +446,9 @@ function buatInputBalas(row,isAdmin,klaimSaya){
     html+='<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">';
     html+='<span style="font-size:11px;font-weight:700;background:#DCFCE7;color:#166534;padding:3px 10px;border-radius:20px">✅ TERKIRIM</span>';
     if(row.pic) html+='<span style="font-size:11px;font-weight:700;color:var(--muted)">oleh '+escHtml(row.pic)+'</span>';
-    html+='<button onclick="toggleEdit('+row._rowIndex+',this)" style="font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;border:1px solid #E5E7EB;background:#F9FAFB;color:#374151;cursor:pointer">Edit</button>';
+ html+='<button onclick="toggleEdit('+row._rowIndex+',this)" class="edit-btn">Edit</button>';
+
+
     html+='</div>';
     html+='<div id="edit-wrap-'+row._rowIndex+'" style="display:none">';
     html+='<div class="chat-input-row"><input class="chat-reply-inp" data-rowindex="'+row._rowIndex+'" placeholder="Kirim ulang balasan..." value="">';
