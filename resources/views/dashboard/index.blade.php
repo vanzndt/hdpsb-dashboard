@@ -1,5 +1,4 @@
-﻿@'
-@extends('layouts.app')
+﻿@extends('layouts.app')
 
 @section('title', 'Dashboard — HD PSB')
 
@@ -678,4 +677,3 @@ window.addEventListener("DOMContentLoaded",function(){
 });
 </script>
 @endpush
-'@ | Set-Content resources\views\dashboard\index.blade.php -Encoding UTF8
