@@ -1,7 +1,6 @@
-﻿@'
-@extends('layouts.app')
+﻿@extends('layouts.app')
 
-@section('title', 'Dashboard ΓÇö HD PSB')
+@section('title', 'Dashboard — HD PSB')
 
 @push('styles')
 <style>
@@ -73,6 +72,8 @@
   .chat-send-btn svg{width:17px;height:17px;fill:#fff}
   .klaim-btn{font-size:11px;font-weight:700;padding:5px 14px;border-radius:20px;border:none;background:var(--tg-blue);color:#fff;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;white-space:nowrap;transition:opacity 0.2s}
   .klaim-btn:hover{opacity:0.85}
+.edit-btn{font-size:11px;font-weight:700;padding:5px 14px;border-radius:20px;border:none;background:#FEE2E2;color:#DC2626;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;white-space:nowrap;transition:all 0.2s}
+.edit-btn:hover{background:#DC2626;color:#fff}
   .kunci-info{font-size:11px;font-weight:600;color:#92400E;background:#FEF3C7;border:1px solid #FCD34D;border-radius:8px;padding:5px 10px;display:flex;align-items:center;gap:5px;white-space:nowrap}
   .typing-indicator{font-size:10px;color:var(--tg-blue);font-style:italic;min-height:14px;padding-left:4px}
   .loading-overlay{display:flex;align-items:center;justify-content:center;padding:3rem;flex-direction:column;gap:12px}
@@ -158,7 +159,7 @@
 {{-- ===== ROLE BANNER (khusus PIC) ===== --}}
 @if($user['role'] === 'PIC')
 <div class="role-banner">
-  <span>Kamu login sebagai <strong>{{ $user['name'] }}</strong> ΓÇö nama kamu otomatis dipakai sebagai PIC</span>
+  <span>Kamu login sebagai <strong>{{ $user['name'] }}</strong> — nama kamu otomatis dipakai sebagai PIC</span>
 </div>
 @endif
 
@@ -225,7 +226,7 @@
         <div class="modal-sender" id="modalSender"></div>
         <div class="modal-meta" id="modalMeta"></div>
       </div>
-      <button class="modal-close" id="modalCloseBtn">Γ£ò</button>
+      <button class="modal-close" id="modalCloseBtn">✕</button>
     </div>
     <div class="modal-body">
       <div class="modal-msg-wrap">
@@ -343,7 +344,7 @@ async function checkNewRows(){
         }
       });
       if(wasNearBottom) setTimeout(scrollToBottom,80);
-      else showToast("≡ƒÆ¼ "+res.rows.length+" pesan baru","success");
+      else showToast("🔒 "+res.rows.length+" pesan baru","success");
       setTimeout(function(){ newRowIndices=[]; },4000);
     }
   } catch(e){ setConnStatus(false); }
@@ -370,13 +371,13 @@ async function pollKlaimStatus(){
           const klaimOrang = now && !klaimSaya;
           let html;
           if(klaimOrang){
-            html='<div class="chat-input-wrap"><div class="kunci-info">≡ƒöÆ Sedang dikerjakan <strong>'+escHtml(now)+'</strong></div></div>';
+            html='<div class="chat-input-wrap"><div class="kunci-info">💬 Sedang dikerjakan <strong>'+escHtml(now)+'</strong></div></div>';
             tr.classList.add("terkunci");
           } else if(klaimSaya){
             html=buatInputBalas(row,isAdmin,true);
             tr.classList.remove("terkunci");
           } else {
-            html='<div class="chat-input-wrap"><button class="klaim-btn" data-rowindex="'+ri+'">Γ£ï KERJAKAN</button></div>';
+            html='<div class="chat-input-wrap"><button class="klaim-btn" data-rowindex="'+ri+'">✋ KERJAKAN</button></div>';
             tr.classList.remove("terkunci");
           }
           tr.cells[6].innerHTML = html;
@@ -419,9 +420,9 @@ function renderTable(){
     const chip     = isDone?'<span class="chip chip-done">Selesai</span>':'<span class="chip chip-pending">Menunggu</span>';
     let actionCol;
     if(isDone){ actionCol=buatInputBalas(row,isAdmin,false); }
-    else if(klaimOrang){ actionCol='<div class="chat-input-wrap"><div class="kunci-info">≡ƒöÆ Sedang dikerjakan <strong>'+escHtml(klaimOleh)+'</strong></div></div>'; }
+    else if(klaimOrang){ actionCol='<div class="chat-input-wrap"><div class="kunci-info">💬 Sedang dikerjakan <strong>'+escHtml(klaimOleh)+'</strong></div></div>'; }
     else if(klaimSaya){ actionCol=buatInputBalas(row,isAdmin,true); }
-    else { actionCol='<div class="chat-input-wrap"><button class="klaim-btn" data-rowindex="'+row._rowIndex+'">Γ£ï KERJAKAN</button></div>'; }
+    else { actionCol='<div class="chat-input-wrap"><button class="klaim-btn" data-rowindex="'+row._rowIndex+'">✋ KERJAKAN</button></div>'; }
     const trClass=(isNew?'is-new':'')+(klaimOrang?' terkunci':'');
     return'<tr class="'+trClass.trim()+'" data-rowindex="'+row._rowIndex+'"><td class="cell-tkt">'+(row.laporanId||'-').replace('TKT-','')+'</td><td class="cell-time">'+formatTime(row.timestamp)+'</td><td><div class="name-cell"><div class="avatar">'+getInitials(row.name)+'</div><div><div class="name-text">'+escHtml(row.name)+'</div><div class="chat-id">'+row.chatId+'</div></div></div></td><td><div class="msg-cell" data-rowindex="'+row._rowIndex+'"><div class="msg-preview">'+escHtml(row.msg)+'</div><div class="msg-hint">klik untuk baca lengkap</div></div></td><td>'+picBadge+'</td><td>'+chip+'</td><td>'+actionCol+'</td></tr>';
   }).join("");
@@ -431,12 +432,12 @@ function buatInputBalas(row,isAdmin,klaimSaya){
   const isDone=row.statusKey==="done";
   let html='<div class="chat-input-wrap">';
   if(isDone){
-    html+='<div style="display:flex;flex-direction:column;gap:6px">';
-    html+='<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">';
-    html+='<span style="font-size:11px;font-weight:700;background:#DCFCE7;color:#166534;padding:3px 10px;border-radius:20px">Γ£à TERKIRIM</span>';
-    if(row.pic) html+='<span style="font-size:11px;font-weight:700;color:var(--muted)">oleh '+escHtml(row.pic)+'</span>';
-    html+='<button onclick="toggleEdit('+row._rowIndex+',this)" style="font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;border:1px solid #E5E7EB;background:#F9FAFB;color:#374151;cursor:pointer">Edit</button>';
+    html+='<div style="display:flex;flex-direction:column;gap:4px">';
+    html+='<div style="display:flex;align-items:center;gap:8px">';
+    html+='<span style="font-size:11px;font-weight:700;background:#DCFCE7;color:#166534;padding:3px 10px;border-radius:20px">TERKIRIM</span>';
+    html+='<button onclick="toggleEdit('+row._rowIndex+',this)" class="edit-btn">Edit</button>';
     html+='</div>';
+    if(row.pic) html+='<span style="font-size:11px;color:var(--muted);padding-left:2px">oleh '+escHtml(row.pic)+'</span>';
     html+='<div id="edit-wrap-'+row._rowIndex+'" style="display:none">';
     html+='<div class="chat-input-row"><input class="chat-reply-inp" data-rowindex="'+row._rowIndex+'" placeholder="Kirim ulang balasan..." value="">';
     if(isAdmin){
@@ -447,23 +448,7 @@ function buatInputBalas(row,isAdmin,klaimSaya){
     }
     html+='<button class="chat-send-btn" data-rowindex="'+row._rowIndex+'"><svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></button></div>';
     html+='</div></div>';
-  } else {
-    if(klaimSaya){
-      html+='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:2px"><span style="font-size:10px;color:var(--green);font-weight:700">Γ£à Kamu sedang mengerjakan ini</span><button class="klaim-btn" style="font-size:10px;padding:2px 8px;background:#EF4444" data-lepas="'+row._rowIndex+'">Lepas</button></div>';
-    }
-    html+='<div class="chat-input-row"><input class="chat-reply-inp" data-rowindex="'+row._rowIndex+'" placeholder="Tulis balasan..." value="">';
-    if(isAdmin){
-      html+='<select class="chat-pic-sel" id="ps-'+row._rowIndex+'"><option value="">PIC</option>'+PIC_LIST.map(function(p){ return'<option value="'+p+'"'+(row.pic===p?' selected':'')+'>'+p+'</option>'; }).join('')+'</select>';
-    } else {
-      const myWi=WARNA_PIC[CURRENT_USER.name]||{bg:"#E3F2FD",font:"#0D47A1"};
-      html+='<span class="pic-fixed-label" style="background:'+myWi.bg+';color:'+myWi.font+'">'+escHtml(CURRENT_USER.name)+'</span>';
-    }
-    html+='<button class="chat-send-btn" data-rowindex="'+row._rowIndex+'"><svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></button></div>';
-  }
-  html+='<div class="typing-indicator" id="ti-'+row._rowIndex+'"></div></div>';
-  return html;
 }
-
 function toggleEdit(rowIndex, btn){
   const wrap = document.getElementById("edit-wrap-"+rowIndex);
   if(!wrap) return;
@@ -502,7 +487,7 @@ function setupTableDelegation(){
 
 async function ambilTiket(rowIndex){
   const klaimBtn=document.querySelector('.klaim-btn[data-rowindex="'+rowIndex+'"]');
-  if(klaimBtn){ klaimBtn.disabled=true; klaimBtn.textContent="ΓÅ│ Mengambil..."; klaimBtn.style.opacity="0.6"; }
+  if(klaimBtn){ klaimBtn.disabled=true; klaimBtn.textContent="⏳ Mengambil..."; klaimBtn.style.opacity="0.6"; }
   try{
     const res  = await fetch(API_BASE+"/?action=klaim&rowIndex="+rowIndex+"&pic="+encodeURIComponent(CURRENT_USER.name));
     const data = await res.json();
@@ -511,17 +496,17 @@ async function ambilTiket(rowIndex){
       const row=allData.find(r=>String(r._rowIndex)===String(rowIndex));
       if(row){
         const tr=document.querySelector('tr[data-rowindex="'+rowIndex+'"]');
-        if(tr){ tr.cells[6].innerHTML=buatInputBalas(row,CURRENT_USER.role==="ADMIN",true); tr.classList.remove("terkunci"); const inp=tr.querySelector('.chat-reply-inp'); if(inp) inp.focus(); }
+        if(tr){ tr.cells[5].innerHTML=buatInputBalas(row,CURRENT_USER.role==="ADMIN",true); tr.classList.remove("terkunci"); const inp=tr.querySelector('.chat-reply-inp'); if(inp) inp.focus(); }
       }
       showToast("Kamu sedang mengerjakan","success");
     } else {
-      if(klaimBtn){ klaimBtn.disabled=false; klaimBtn.textContent="Γ£ï KERJAKAN"; klaimBtn.style.opacity=""; }
+      if(klaimBtn){ klaimBtn.disabled=false; klaimBtn.textContent="✋ KERJAKAN"; klaimBtn.style.opacity=""; }
       showToast("Sedang dikerjakan "+(data.klaimedBy||"orang lain"),"error");
       klaimCache[String(rowIndex)]=data.klaimedBy||"orang lain";
       renderTable();
     }
   } catch(e){
-    if(klaimBtn){ klaimBtn.disabled=false; klaimBtn.textContent="Γ£ï KERJAKAN"; klaimBtn.style.opacity=""; }
+    if(klaimBtn){ klaimBtn.disabled=false; klaimBtn.textContent="✋ KERJAKAN"; klaimBtn.style.opacity=""; }
     showToast("Gagal mengambil tiket","error");
   }
 }
@@ -692,4 +677,3 @@ window.addEventListener("DOMContentLoaded",function(){
 });
 </script>
 @endpush
-'@ | Set-Content resources\views\dashboard\index.blade.php -Encoding UTF8
