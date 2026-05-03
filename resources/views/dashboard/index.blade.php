@@ -42,7 +42,7 @@
   tbody tr{border-bottom:1px solid var(--border);transition:background .15s}
   tbody tr:hover{background:#F6F9FE}
   tbody tr.terkunci{background:#FFF8E1 !important}
-  tbody td{padding:10px 12px;vertical-align:middle}
+  tbody td{padding:10px 12px;vertical-align:middle;text-align:left}
   tbody tr.is-new{animation:flashNew 4s forwards}
   @keyframes flashNew{0%,60%{background-color:#DBEAFE}100%{background-color:transparent}}
   .cell-tkt{font-size:11px;font-weight:700;color:var(--blue);font-family:'JetBrains Mono',monospace;white-space:nowrap}
@@ -417,7 +417,7 @@ function renderTable(){
     const klaimSaya  = klaimOleh===saya;
     const klaimOrang = klaimOleh&&!klaimSaya;
     const picBadge = wi?'<span class="pic-badge" style="background:'+wi.bg+';color:'+wi.font+'">'+escHtml(row.pic)+'</span>':'<span style="font-size:11px;color:var(--muted)">-</span>';
-    const chip     = isDone?'<span class="chip chip-done">Selesai</span>':'<span class="chip chip-pending">Menunggu</span>';
+    const chip     = isDone?'<div style="display:flex;align-items:center;height:100%"><span class="chip chip-done">Selesai</span></
     let actionCol;
     if(isDone){ actionCol=buatInputBalas(row,isAdmin,false); }
     else if(klaimOrang){ actionCol='<div class="chat-input-wrap"><div class="kunci-info">💬 Sedang dikerjakan <strong>'+escHtml(klaimOleh)+'</strong></div></div>'; }
