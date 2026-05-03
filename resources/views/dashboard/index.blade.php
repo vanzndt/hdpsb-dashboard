@@ -72,6 +72,8 @@
   .chat-send-btn svg{width:17px;height:17px;fill:#fff}
   .klaim-btn{font-size:11px;font-weight:700;padding:5px 14px;border-radius:20px;border:none;background:var(--tg-blue);color:#fff;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;white-space:nowrap;transition:opacity 0.2s}
   .klaim-btn:hover{opacity:0.85}
+.edit-btn{font-size:11px;font-weight:700;padding:5px 14px;border-radius:20px;border:none;background:#FEE2E2;color:#DC2626;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;white-space:nowrap;transition:all 0.2s}
+.edit-btn:hover{background:#DC2626;color:#fff}
   .kunci-info{font-size:11px;font-weight:600;color:#92400E;background:#FEF3C7;border:1px solid #FCD34D;border-radius:8px;padding:5px 10px;display:flex;align-items:center;gap:5px;white-space:nowrap}
   .typing-indicator{font-size:10px;color:var(--tg-blue);font-style:italic;min-height:14px;padding-left:4px}
   .loading-overlay{display:flex;align-items:center;justify-content:center;padding:3rem;flex-direction:column;gap:12px}
