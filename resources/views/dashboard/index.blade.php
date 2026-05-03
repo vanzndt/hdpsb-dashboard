@@ -434,14 +434,18 @@ function buatInputBalas(row,isAdmin,klaimSaya){
   if(isDone){
 html+='<div style="display:flex;align-items:flex-start;gap:8px">';
     html+='<div style="display:flex;flex-direction:column;gap:3px">';
-    html+='<span style="font-size:11px;font-weight:700;background:#DCFCE7;color:#166534;padding:3px 10px;border-radius:20px;display:inline-block">TERKIRIM</span>';
+
+html+='<span style="font-size:11px;font-weight:700;background:#DCFCE7;color:#166534;padding:3px 10px;border-radius:20px;display:inline-block">TERKIRIM</span>';
     if(row.pic) html+='<span style="font-size:11px;color:var(--muted);padding-left:4px">oleh '+escHtml(row.pic)+'</span>';
-    html+='</div>';
     html+='<button onclick="toggleEdit('+row._rowIndex+',this)" class="edit-btn">Edit</button>';
+    html+='</div>';
+    if(row.balasan) html+='<div style="font-size:11px;color:#166534;background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;padding:5px 10px;margin-top:4px"><strong>Solusi:</strong> '+escHtml(row.balasan)+'</div>';
+    html+='<div style="display:none">';
     html+='</div>';
  
     html+='<div id="edit-wrap-'+row._rowIndex+'" style="display:none">';
-    html+='<div class="chat-input-row"><input class="chat-reply-inp" data-rowindex="'+row._rowIndex+'" placeholder="Kirim ulang balasan..." value="">';
+    html+='<div class="chat-input-row"><textarea class="chat-reply-inp" data-rowindex="'+row._rowIndex+'" placeholder="Kirim ulang balasan..." rows="3" style="resize:vertical;min-height:60px;padding:4px 0"></textarea>';
+
     if(isAdmin){
       html+='<select class="chat-pic-sel" id="ps-'+row._rowIndex+'"><option value="">PIC</option>'+PIC_LIST.map(function(p){ return'<option value="'+p+'"'+(row.pic===p?' selected':'')+'>'+p+'</option>'; }).join('')+'</select>';
     } else {
@@ -454,7 +458,8 @@ html+='<div style="display:flex;align-items:flex-start;gap:8px">';
     if(klaimSaya){
       html+='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:2px"><span style="font-size:10px;color:var(--green);font-weight:700">Kamu sedang mengerjakan ini</span><button class="klaim-btn" style="font-size:10px;padding:2px 8px;background:#EF4444" data-lepas="'+row._rowIndex+'">Lepas</button></div>';
     }
-    html+='<div class="chat-input-row"><input class="chat-reply-inp" data-rowindex="'+row._rowIndex+'" placeholder="Tulis balasan..." value="">';
+    html+='<div class="chat-input-row"><textarea class="chat-reply-inp" data-rowindex="'+row._rowIndex+'" placeholder="Tulis balasan..." rows="3" style="resize:vertical;min-height:60px;padding:4px 0"></textarea>';
+
     if(isAdmin){
       html+='<select class="chat-pic-sel" id="ps-'+row._rowIndex+'"><option value="">PIC</option>'+PIC_LIST.map(function(p){ return'<option value="'+p+'"'+(row.pic===p?' selected':'')+'>'+p+'</option>'; }).join('')+'</select>';
     } else {
