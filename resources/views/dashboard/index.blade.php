@@ -417,7 +417,7 @@ function renderTable(){
     const klaimSaya  = klaimOleh===saya;
     const klaimOrang = klaimOleh&&!klaimSaya;
     const picBadge = wi?'<span class="pic-badge" style="background:'+wi.bg+';color:'+wi.font+'">'+escHtml(row.pic)+'</span>':'<span style="font-size:11px;color:var(--muted)">-</span>';
-    const chip     = isDone?'<div style="display:flex;align-items:center;height:100%"><span class="chip chip-done">Selesai</span></
+  const chip     = isDone?'<span class="chip chip-done">Selesai</span>':'<span class="chip chip-pending">Menunggu</span>';
     let actionCol;
     if(isDone){ actionCol=buatInputBalas(row,isAdmin,false); }
     else if(klaimOrang){ actionCol='<div class="chat-input-wrap"><div class="kunci-info">💬 Sedang dikerjakan <strong>'+escHtml(klaimOleh)+'</strong></div></div>'; }
