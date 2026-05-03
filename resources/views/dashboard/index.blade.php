@@ -434,13 +434,10 @@ function buatInputBalas(row,isAdmin,klaimSaya){
   if(isDone){
 html+='<div style="display:flex;align-items:flex-start;gap:8px">';
     html+='<div style="display:flex;flex-direction:column;gap:3px">';
-
-html+='<span style="font-size:11px;font-weight:700;background:#DCFCE7;color:#166534;padding:3px 10px;border-radius:20px;display:inline-block">TERKIRIM</span>';
+    html+='<span style="font-size:11px;font-weight:700;background:#DCFCE7;color:#166534;padding:3px 10px;border-radius:20px;display:inline-block">TERKIRIM</span>';
     if(row.pic) html+='<span style="font-size:11px;color:var(--muted);padding-left:4px">oleh '+escHtml(row.pic)+'</span>';
-    html+='<button onclick="toggleEdit('+row._rowIndex+',this)" class="edit-btn">Edit</button>';
     html+='</div>';
-    if(row.balasan) html+='<div style="font-size:11px;color:#166534;background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;padding:5px 10px;margin-top:4px"><strong>Solusi:</strong> '+escHtml(row.balasan)+'</div>';
-    html+='<div style="display:none">';
+    html+='<button onclick="toggleEdit('+row._rowIndex+',this)" class="edit-btn">Edit</button>';
     html+='</div>';
  
     html+='<div id="edit-wrap-'+row._rowIndex+'" style="display:none">';
