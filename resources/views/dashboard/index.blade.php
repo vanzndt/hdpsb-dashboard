@@ -428,7 +428,7 @@ function renderTable(){
     else if(klaimSaya){ actionCol=buatInputBalas(row,isAdmin,true); }
     else { actionCol='<div class="chat-input-wrap"><button class="klaim-btn" data-rowindex="'+row._rowIndex+'">✋ KERJAKAN</button></div>'; }
     const trClass=(isNew?'is-new':'')+(klaimOrang?' terkunci':'');
-    return'<tr class="'+trClass.trim()+'" data-rowindex="'+row._rowIndex+'"><td class="cell-time"></td>
+   return'<tr class="'+trClass.trim()+'" data-rowindex="'+row._rowIndex+'"><td class="cell-time">'+formatTime(row.timestamp)+'</td><td><div class="name-cell"><div class="avatar">'+getInitials(row.name)+'</div><div><div class="name-text">'+escHtml(row.name)+'</div><div class="chat-id">'+row.chatId+'</div></div></div></td><td><div class="msg-cell" data-rowindex="'+row._rowIndex+'"><div class="msg-preview">'+escHtml(row.msg)+'</div><div class="msg-hint">klik untuk baca lengkap</div></div></td><td>'+picBadge+'</td><td>'+chip+'</td><td>'+actionCol+'</td></tr>';
 }).join("");
 }
 
