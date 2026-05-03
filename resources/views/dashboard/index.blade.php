@@ -448,7 +448,7 @@ function buatInputBalas(row,isAdmin,klaimSaya){
     }
     html+='<button class="chat-send-btn" data-rowindex="'+row._rowIndex+'"><svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></button></div>';
     html+='</div></div>';
-
+}
 function toggleEdit(rowIndex, btn){
   const wrap = document.getElementById("edit-wrap-"+rowIndex);
   if(!wrap) return;
