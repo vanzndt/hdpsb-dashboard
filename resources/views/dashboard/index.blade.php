@@ -38,7 +38,7 @@
   .table-title{font-size:13px;font-weight:700}
   .count-badge{font-size:11px;background:var(--bg);color:var(--muted);padding:2px 10px;border-radius:20px;font-weight:600}
   .tbl-wrap{overflow-x:auto}
-  table{width:100%;border-collapse:collapse;min-width:820px}
+  table{width:100%;border-collapse:collapse;min-width:900px;table-layout:fixed}
   thead th{text-align:left;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:9px 12px;background:#F8FAFC;border-bottom:1px solid var(--border);white-space:nowrap}
   tbody tr{border-bottom:1px solid var(--border);transition:background .15s}
   tbody tr:hover{background:#F6F9FE}
@@ -52,9 +52,9 @@
   .name-cell{display:flex;align-items:center;gap:8px}
   .name-text{font-size:13px;font-weight:600}
   .chat-id{font-size:10px;color:var(--muted);font-family:'JetBrains Mono',monospace}
-  .msg-cell{max-width:200px;cursor:pointer;padding:6px 8px;border-radius:8px;transition:background .15s}
+  .msg-cell{max-width:100%;cursor:pointer;padding:6px 8px;border-radius:8px;transition:background .15s}
   .msg-cell:hover{background:#EEF4FF}
-  .msg-preview{font-size:12px;color:var(--muted);line-height:1.5;white-space:pre-wrap;word-break:break-word;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .msg-preview{font-size:12px;color:var(--muted);line-height:1.5;white-space:pre-wrap;word-break:break-word;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
   .msg-hint{font-size:10px;color:#A0AEC0;margin-top:3px}
   .pic-badge{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;white-space:nowrap}
   .chip{display:inline-flex;align-items:center;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;white-space:nowrap}
@@ -205,11 +205,16 @@
       </div>
       <div class="empty-state" id="emptyState" style="display:none">Tidak ada laporan ditemukan.</div>
       <table id="mainTable" style="display:none">
-        <thead>
-          <tr>
-            <th>Tiket</th><th>Waktu</th><th>Pengirim</th><th>Pesan</th><th>PIC</th><th>Status</th><th>Aksi</th>
-          </tr>
-        </thead>
+       <thead>
+  <tr>
+    <th style="width:100px">Waktu</th>
+    <th style="width:180px">Pengirim</th>
+    <th>Pesan</th>
+    <th style="width:80px">PIC</th>
+    <th style="width:90px">Status</th>
+    <th style="width:300px">Aksi</th>
+  </tr>
+</thead>
         <tbody id="tableBody"></tbody>
       </table>
     </div>
@@ -423,8 +428,8 @@ function renderTable(){
     else if(klaimSaya){ actionCol=buatInputBalas(row,isAdmin,true); }
     else { actionCol='<div class="chat-input-wrap"><button class="klaim-btn" data-rowindex="'+row._rowIndex+'">✋ KERJAKAN</button></div>'; }
     const trClass=(isNew?'is-new':'')+(klaimOrang?' terkunci':'');
-    return'<tr class="'+trClass.trim()+'" data-rowindex="'+row._rowIndex+'"><td class="cell-tkt">'+(row.laporanId||'-').replace('TKT-','')+'</td><td class="cell-time">'+formatTime(row.timestamp)+'</td><td><div class="name-cell"><div class="avatar">'+getInitials(row.name)+'</div><div><div class="name-text">'+escHtml(row.name)+'</div><div class="chat-id">'+row.chatId+'</div></div></div></td><td><div class="msg-cell" data-rowindex="'+row._rowIndex+'"><div class="msg-preview">'+escHtml(row.msg)+'</div><div class="msg-hint">klik untuk baca lengkap</div></div></td><td>'+picBadge+'</td><td>'+chip+'</td><td>'+actionCol+'</td></tr>';
-  }).join("");
+    return'<tr class="'+trClass.trim()+'" data-rowindex="'+row._rowIndex+'"><td class="cell-time"></td>
+}).join("");
 }
 
 function buatInputBalas(row,isAdmin,klaimSaya){
@@ -691,5 +696,3 @@ window.addEventListener("DOMContentLoaded",function(){
   setupModal(); setupTableDelegation(); loadData();
 });
 </script>
-@endpush
-'@ | Set-Content resources\views\dashboard\index.blade.php -Encoding UTF8
