@@ -159,7 +159,7 @@
 {{-- ===== ROLE BANNER (khusus PIC) ===== --}}
 @if($user['role'] === 'PIC')
 <div class="role-banner">
-  <span>Kamu login sebagai <strong>{{ $user['name'] }}</strong> — nama kamu otomatis dipakai sebagai PIC</span>
+  <span>Kamu login sebagai <strong>{{ $user['name'] }}</strong> — nama kamu otomatis dipakai sebagai PIC</span>
 </div>
 @endif
 
@@ -432,12 +432,12 @@ function buatInputBalas(row,isAdmin,klaimSaya){
   const isDone=row.statusKey==="done";
   let html='<div class="chat-input-wrap">';
   if(isDone){
-    html+='<div style="display:flex;flex-direction:column;gap:4px">';
+html+='<div style="display:flex;flex-direction:column;gap:4px">';
     html+='<div style="display:flex;align-items:center;gap:8px">';
     html+='<span style="font-size:11px;font-weight:700;background:#DCFCE7;color:#166534;padding:3px 10px;border-radius:20px">TERKIRIM</span>';
+    if(row.pic) html+='<span style="font-size:11px;color:var(--muted)">oleh '+escHtml(row.pic)+'</span>';
     html+='<button onclick="toggleEdit('+row._rowIndex+',this)" class="edit-btn">Edit</button>';
-    html+='</div>';
-    if(row.pic) html+='<span style="font-size:11px;color:var(--muted);padding-left:2px">oleh '+escHtml(row.pic)+'</span>';
+    html+='</div>';   
     html+='<div id="edit-wrap-'+row._rowIndex+'" style="display:none">';
     html+='<div class="chat-input-row"><input class="chat-reply-inp" data-rowindex="'+row._rowIndex+'" placeholder="Kirim ulang balasan..." value="">';
     if(isAdmin){
