@@ -38,7 +38,7 @@
   .table-title{font-size:13px;font-weight:700}
   .count-badge{font-size:11px;background:var(--bg);color:var(--muted);padding:2px 10px;border-radius:20px;font-weight:600}
   .tbl-wrap{overflow-x:auto}
-  table{width:100%;border-collapse:collapse;min-width:900px;table-layout:fixed}
+  table{width:100%;border-collapse:collapse;min-width:820px}
   thead th{text-align:left;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:9px 12px;background:#F8FAFC;border-bottom:1px solid var(--border);white-space:nowrap}
   tbody tr{border-bottom:1px solid var(--border);transition:background .15s}
   tbody tr:hover{background:#F6F9FE}
@@ -52,9 +52,9 @@
   .name-cell{display:flex;align-items:center;gap:8px}
   .name-text{font-size:13px;font-weight:600}
   .chat-id{font-size:10px;color:var(--muted);font-family:'JetBrains Mono',monospace}
-  .msg-cell{max-width:100%;cursor:pointer;padding:6px 8px;border-radius:8px;transition:background .15s}
+  .msg-cell{max-width:200px;cursor:pointer;padding:6px 8px;border-radius:8px;transition:background .15s}
   .msg-cell:hover{background:#EEF4FF}
-  .msg-preview{font-size:12px;color:var(--muted);line-height:1.5;white-space:pre-wrap;word-break:break-word;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+  .msg-preview{font-size:12px;color:var(--muted);line-height:1.5;white-space:pre-wrap;word-break:break-word;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
   .msg-hint{font-size:10px;color:#A0AEC0;margin-top:3px}
   .pic-badge{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;white-space:nowrap}
   .chip{display:inline-flex;align-items:center;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;white-space:nowrap}
@@ -72,12 +72,6 @@
   .chat-send-btn.sending{opacity:0.5;pointer-events:none;cursor:not-allowed}
   .chat-send-btn svg{width:17px;height:17px;fill:#fff}
   .klaim-btn{font-size:11px;font-weight:700;padding:5px 14px;border-radius:20px;border:none;background:var(--tg-blue);color:#fff;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;white-space:nowrap;transition:opacity 0.2s}
-
-.edit-btn{font-size:11px;font-weight:700;padding:5px 14px;border-radius:20px;border:none;background:#FEE2E2;color:#DC2626;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;white-space:nowrap;transition:all 0.2s}
-.edit-btn:hover{background:#DC2626;color:#fff}
-.terkirim-badge{font-size:11px;font-weight:700;background:#DCFCE7;color:#166534;padding:3px 10px;border-radius:20px}
-.terkirim-wrap{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-
   .klaim-btn:hover{opacity:0.85}
   .kunci-info{font-size:11px;font-weight:600;color:#92400E;background:#FEF3C7;border:1px solid #FCD34D;border-radius:8px;padding:5px 10px;display:flex;align-items:center;gap:5px;white-space:nowrap}
   .typing-indicator{font-size:10px;color:var(--tg-blue);font-style:italic;min-height:14px;padding-left:4px}
@@ -211,16 +205,11 @@
       </div>
       <div class="empty-state" id="emptyState" style="display:none">Tidak ada laporan ditemukan.</div>
       <table id="mainTable" style="display:none">
-       <thead>
-  <tr>
-    <th style="width:100px">Waktu</th>
-    <th style="width:180px">Pengirim</th>
-    <th>Pesan</th>
-    <th style="width:80px">PIC</th>
-    <th style="width:90px">Status</th>
-    <th style="width:300px">Aksi</th>
-  </tr>
-</thead>
+        <thead>
+          <tr>
+            <th>Tiket</th><th>Waktu</th><th>Pengirim</th><th>Pesan</th><th>PIC</th><th>Status</th><th>Aksi</th>
+          </tr>
+        </thead>
         <tbody id="tableBody"></tbody>
       </table>
     </div>
@@ -434,8 +423,8 @@ function renderTable(){
     else if(klaimSaya){ actionCol=buatInputBalas(row,isAdmin,true); }
     else { actionCol='<div class="chat-input-wrap"><button class="klaim-btn" data-rowindex="'+row._rowIndex+'">✋ KERJAKAN</button></div>'; }
     const trClass=(isNew?'is-new':'')+(klaimOrang?' terkunci':'');
-   return'<tr class="'+trClass.trim()+'" data-rowindex="'+row._rowIndex+'"><td class="cell-time">'+formatTime(row.timestamp)+'</td><td><div class="name-cell"><div class="avatar">'+getInitials(row.name)+'</div><div><div class="name-text">'+escHtml(row.name)+'</div><div class="chat-id">'+row.chatId+'</div></div></div></td><td><div class="msg-cell" data-rowindex="'+row._rowIndex+'"><div class="msg-preview">'+escHtml(row.msg)+'</div><div class="msg-hint">klik untuk baca lengkap</div></div></td><td>'+picBadge+'</td><td>'+chip+'</td><td>'+actionCol+'</td></tr>';
-}).join("");
+    return'<tr class="'+trClass.trim()+'" data-rowindex="'+row._rowIndex+'"><td class="cell-tkt">'+(row.laporanId||'-').replace('TKT-','')+'</td><td class="cell-time">'+formatTime(row.timestamp)+'</td><td><div class="name-cell"><div class="avatar">'+getInitials(row.name)+'</div><div><div class="name-text">'+escHtml(row.name)+'</div><div class="chat-id">'+row.chatId+'</div></div></div></td><td><div class="msg-cell" data-rowindex="'+row._rowIndex+'"><div class="msg-preview">'+escHtml(row.msg)+'</div><div class="msg-hint">klik untuk baca lengkap</div></div></td><td>'+picBadge+'</td><td>'+chip+'</td><td>'+actionCol+'</td></tr>';
+  }).join("");
 }
 
 function buatInputBalas(row,isAdmin,klaimSaya){
@@ -446,9 +435,7 @@ function buatInputBalas(row,isAdmin,klaimSaya){
     html+='<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">';
     html+='<span style="font-size:11px;font-weight:700;background:#DCFCE7;color:#166534;padding:3px 10px;border-radius:20px">✅ TERKIRIM</span>';
     if(row.pic) html+='<span style="font-size:11px;font-weight:700;color:var(--muted)">oleh '+escHtml(row.pic)+'</span>';
- html+='<button onclick="toggleEdit('+row._rowIndex+',this)" class="edit-btn">Edit</button>';
-
-
+    html+='<button onclick="toggleEdit('+row._rowIndex+',this)" style="font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;border:1px solid #E5E7EB;background:#F9FAFB;color:#374151;cursor:pointer">Edit</button>';
     html+='</div>';
     html+='<div id="edit-wrap-'+row._rowIndex+'" style="display:none">';
     html+='<div class="chat-input-row"><input class="chat-reply-inp" data-rowindex="'+row._rowIndex+'" placeholder="Kirim ulang balasan..." value="">';
