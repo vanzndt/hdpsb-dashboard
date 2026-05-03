@@ -448,6 +448,22 @@ function buatInputBalas(row,isAdmin,klaimSaya){
     }
     html+='<button class="chat-send-btn" data-rowindex="'+row._rowIndex+'"><svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></button></div>';
     html+='</div></div>';
+} else {
+    if(klaimSaya){
+      html+='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:2px"><span style="font-size:10px;color:var(--green);font-weight:700">Kamu sedang mengerjakan ini</span><button class="klaim-btn" style="font-size:10px;padding:2px 8px;background:#EF4444" data-lepas="'+row._rowIndex+'">Lepas</button></div>';
+    }
+    html+='<div class="chat-input-row"><input class="chat-reply-inp" data-rowindex="'+row._rowIndex+'" placeholder="Tulis balasan..." value="">';
+    if(isAdmin){
+      html+='<select class="chat-pic-sel" id="ps-'+row._rowIndex+'"><option value="">PIC</option>'+PIC_LIST.map(function(p){ return'<option value="'+p+'"'+(row.pic===p?' selected':'')+'>'+p+'</option>'; }).join('')+'</select>';
+    } else {
+      const myWi=WARNA_PIC[CURRENT_USER.name]||{bg:"#E3F2FD",font:"#0D47A1"};
+      html+='<span class="pic-fixed-label" style="background:'+myWi.bg+';color:'+myWi.font+'">'+escHtml(CURRENT_USER.name)+'</span>';
+    }
+    html+='<button class="chat-send-btn" data-rowindex="'+row._rowIndex+'"><svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></button></div>';
+  }
+  html+='<div class="typing-indicator" id="ti-'+row._rowIndex+'"></div></div>';
+  return html;
+
 }
 function toggleEdit(rowIndex, btn){
   const wrap = document.getElementById("edit-wrap-"+rowIndex);
