@@ -1,4 +1,5 @@
 <?php
+header('X-Accel-Buffering: no');
 $_SERVER['HTTPS'] = 'on';
 $_SERVER['SERVER_PORT'] = 443;
 ini_set('display_errors', 1);

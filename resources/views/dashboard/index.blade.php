@@ -271,7 +271,7 @@ const WARNA_PIC    = @json($warnaPic);
 const PIC_LIST     = @json($picList);
 const PASSWORDS_ADMIN = @json(config('hdpsb.admin_key', 'vanzndt28'));
 
-const POLL_INTERVAL = 2000;
+const POLL_INTERVAL = 3000;
 
 let allData=[], lastIndex=1, activeFilter="SEMUA", pollTimer=null, isPolling=false, newRowIndices=[];
 let klaimCache={};
