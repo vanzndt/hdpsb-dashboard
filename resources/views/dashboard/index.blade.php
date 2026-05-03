@@ -314,13 +314,14 @@ async function checkNewRows(){
     const resAll = await api("/?action=data");
     resAll.rows.forEach(function(newRow){
       const oldRow = allData.find(r=>String(r._rowIndex)===String(newRow._rowIndex));
-      if(oldRow && oldRow.statusKey !== newRow.statusKey){
-        oldRow.statusKey = newRow.statusKey;
-        oldRow.pic = newRow.pic;
-        oldRow.balasan = newRow.balasan;
-        updateRow(newRow._rowIndex);
-        renderStats();
-      }
+     if(oldRow && (oldRow.statusKey !== newRow.statusKey || oldRow.pic !== newRow.pic || oldRow.balasan !== newRow.balasan)){
+  oldRow.statusKey = newRow.statusKey;
+  oldRow.pic = newRow.pic;
+  oldRow.balasan = newRow.balasan;
+  updateRow(newRow._rowIndex);
+  renderStats();
+  buildPicFilters();
+}
     });
 
     if(res.hasNew){
