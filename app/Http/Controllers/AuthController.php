@@ -12,12 +12,12 @@ class AuthController extends Controller
      */
     private array $users = [
         'ADMIN'    => ['password' => 'vanzndt28', 'role' => 'ADMIN'],
-        'ANJAS'    => ['password' => 'vanzndt28', 'role' => 'PIC'],
-        'JHON'     => ['password' => 'vanzndt28', 'role' => 'PIC'],
-        'LINA'     => ['password' => 'vanzndt28', 'role' => 'PIC'],
-        'NANDA'    => ['password' => 'vanzndt28', 'role' => 'PIC'],
+        'ANJAS'    => ['password' => '40990230', 'role' => 'PIC'],
+        'JHON'     => ['password' => '18940320', 'role' => 'PIC'],
+        'LINA'     => ['password' => '19710013', 'role' => 'PIC'],
+        'NANDA'    => ['password' => '18990011', 'role' => 'PIC'],
         'PUTRI'    => ['password' => 'vanzndt28', 'role' => 'PIC'],
-        'TAUFIQ'   => ['password' => 'vanzndt28', 'role' => 'PIC'],
+        'TAUFIQ'   => ['password' => '20981045', 'role' => 'PIC'],
         'TIKA'     => ['password' => 'vanzndt28', 'role' => 'PIC'],
         'IRVAN'    => ['password' => 'vanzndt28', 'role' => 'PIC'],
         'JULIARDI' => ['password' => 'vanzndt28', 'role' => 'PIC'],
