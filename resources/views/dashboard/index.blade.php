@@ -434,7 +434,7 @@ function buatInputBalas(row,isAdmin,klaimSaya){
   if(isDone){
     html+='<div style="display:flex;flex-direction:column;gap:6px">';
     html+='<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">';
-    html+='<span style="font-size:11px;font-weight:700;background:#DCFCE7;color:#166534;padding:3px 10px;border-radius:20px">âœ… TERKIRIM</span>';
+html+='<span style="font-size:11px;font-weight:700;background:#DCFCE7;color:#166534;padding:3px 10px;border-radius:20px">TERKIRIM</span>';
     if(row.pic) html+='<span style="font-size:11px;font-weight:700;color:var(--muted)">oleh '+escHtml(row.pic)+'</span>';
     html+='<button onclick="toggleEdit('+row._rowIndex+',this)" style="font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;border:1px solid #E5E7EB;background:#F9FAFB;color:#374151;cursor:pointer">Edit</button>';
     html+='</div>';
