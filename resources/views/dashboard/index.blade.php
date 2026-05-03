@@ -159,7 +159,7 @@
 {{-- ===== ROLE BANNER (khusus PIC) ===== --}}
 @if($user['role'] === 'PIC')
 <div class="role-banner">
-  <span>Kamu login sebagai <strong>{{ $user['name'] }}</strong> Ã¢â‚¬â€ nama kamu otomatis dipakai sebagai PIC</span>
+  <span>Kamu login sebagai <strong>{{ $user['name'] }}</strong> — nama kamu otomatis dipakai sebagai PIC</span>
 </div>
 @endif
 
