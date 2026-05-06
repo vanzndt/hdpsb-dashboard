@@ -12,16 +12,16 @@ class AuthController extends Controller
      */
     private array $users = [
         'ADMIN'    => ['password' => 'vanzndt28', 'role' => 'ADMIN'],
-        'ANJAS'    => ['password' => '40990230', 'role' => 'PIC'],
-        'JHON'     => ['password' => '18940320', 'role' => 'PIC'],
-        'LINA'     => ['password' => '19710013', 'role' => 'PIC'],
-        'NANDA'    => ['password' => '18990011', 'role' => 'PIC'],
-        'PUTRI'    => ['password' => 'vanzndt28', 'role' => 'PIC'],
-        'TAUFIQ'   => ['password' => '20981045', 'role' => 'PIC'],
-        'TIKA'     => ['password' => 'vanzndt28', 'role' => 'PIC'],
-        'IRVAN'    => ['password' => 'vanzndt28', 'role' => 'PIC'],
-        'JULIARDI' => ['password' => 'vanzndt28', 'role' => 'PIC'],
-        'RITA'     => ['password' => 'vanzndt28', 'role' => 'PIC'],
+        'ANJAS'    => ['password' => 'hdpsb', 'role' => 'PIC'],
+        'JHON'     => ['password' => 'hdpsb', 'role' => 'PIC'],
+        'LINA'     => ['password' => 'hdpsb', 'role' => 'PIC'],
+        'NANDA'    => ['password' => 'hdpsb', 'role' => 'PIC'],
+        'PUTRI'    => ['password' => 'hdpsb', 'role' => 'PIC'],
+        'TAUFIQ'   => ['password' => 'hdpsb', 'role' => 'PIC'],
+        'TIKA'     => ['password' => 'hdpsb', 'role' => 'PIC'],
+        'IRVAN'    => ['password' => 'hdpsb', 'role' => 'PIC'],
+        'JULIARDI' => ['password' => 'hdpsb', 'role' => 'PIC'],
+        'RITA'     => ['password' => 'hdpsb', 'role' => 'PIC'],
     ];
 
     public function showLogin()
